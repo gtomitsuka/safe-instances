@@ -10,12 +10,14 @@ function Child(location, timeout, filename, encoding, commandType){
   this.filename = filename;
   this.timeout = timeout || 6 * 60;
   this._isReady = false;
+  
+  var self = this;
   fs.readFile(location, this.encoding, function(error, file){
     if(error)
       throw error;
       
-    this.file = file;
-    this._isReady = true;
+    self.file = file;
+    self._isReady = true;
   });
 }
 
