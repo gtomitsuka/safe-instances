@@ -15,6 +15,7 @@ function Child(location, timeout, filename, encoding, commandType){
       throw error;
       
     this.file = file;
+    this._isReady = true;
   });
 }
 
