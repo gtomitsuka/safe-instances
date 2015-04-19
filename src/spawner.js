@@ -3,7 +3,6 @@
 //Modules
 var child_process = require('child_process');
 var fs = require('fs');
-var child = require('./child');
 
 function Child(location, timeout, filename, encoding, commandType){
   this.encoding = encoding || 'utf8';
