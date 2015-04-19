@@ -15,7 +15,7 @@ function Child(location, timeout, filename, encoding, commandType){
 }
 
 Child.prototype.spawn = function(){
-  return child_process.spawn(this.commandType, [this.filename, this.file, this.timeout.toString()], { stdio: ['pipe', 'pipe', 'pipe', 'ipc'] });
+  return child_process.spawn(this.commandType, ['./child', this.file, this.timeout.toString()], { stdio: ['pipe', 'pipe', 'pipe', 'ipc'] });
 }
 
 module.exports = Child;
