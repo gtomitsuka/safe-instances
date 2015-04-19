@@ -5,7 +5,7 @@ var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
 
-function Child(location, timeout, filename, encoding, commandType){
+function Child(location, timeout, filename, encoding, commandType, fileOrString){
   this.encoding = encoding || 'utf8';
   this.commandType = commandType || 'node';
   this.filename = filename;
@@ -26,7 +26,7 @@ Child.prototype.spawn = function(){
   if(this._isReady === false)
     throw new Error('file is not loaded');
   
-  var args = [__dirname + '/child.js', this.filename, this.file, this.timeout.toString()];
+  var args = [__dirname + '/child.js', this.file, this.timeout.toString()];
   var child = child_process.spawn(this.commandType, args, { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
   child.stdout.on('data', function(data) {
     console.log(data.toString()); 
