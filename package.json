@@ -1,0 +1,28 @@
+{
+  "name": "safe_children",
+  "version": "1.1.0",
+  "description": "Run non-safe JS safely.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oratio-io/safe_children.git"
+  },
+  "keywords": [
+    "safe",
+    "context",
+    "vm",
+    "child",
+    "process",
+    "oratio",
+    "multiprocess"
+  ],
+  "author": "Oratio.io",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oratio-io/safe_children/issues"
+  },
+  "homepage": "https://github.com/oratio-io/safe_children"
+}
