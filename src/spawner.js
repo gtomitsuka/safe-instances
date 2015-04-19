@@ -15,6 +15,7 @@ function Child(location, timeout, filename, encoding, commandType){
       
     console.log(file);
     this.file = file;
+    console.log(this.file);
   });
 }
 
