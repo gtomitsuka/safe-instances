@@ -23,7 +23,7 @@ function Child(location, timeout, filename, encoding, commandType){
 }
 
 Child.prototype.spawn = function(){
-  if(this._isReady === true)
+  if(this._isReady === false)
     throw new Error('file is not loaded');
   
   console.log(path.resolve('./child'));
