@@ -26,8 +26,8 @@ Child.prototype.spawn = function(){
   if(this._isReady === false)
     throw new Error('file is not loaded');
   
-  console.log(path.resolve('./child'));
-  var args = ['./child', this.filename, this.file, this.timeout.toString()];
+  console.log(path.resolve('child.js'));
+  var args = ['child.js', this.filename, this.file, this.timeout.toString()];
   return child_process.spawn(this.commandType, args, { stdio: ['pipe', 'pipe', 'pipe', 'ipc'] });
 }
 
