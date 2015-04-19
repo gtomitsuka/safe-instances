@@ -10,9 +10,9 @@ function Child(location, timeout, filename, encoding, commandType){
   this.filename = filename;
   this.timeout = timeout || 6 * 60;
   fs.readFile(location, this.encoding, function(error, file){
-    if(error)
-      throw error;
-    
+    if(error){
+      console.log(error); throw error;
+    }
     this.file = file;
   });
 }
