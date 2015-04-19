@@ -10,13 +10,15 @@ function Child(location, timeout, filename, encoding, commandType){
   this.filename = filename;
   this.timeout = timeout || 6 * 60;
   fs.readFile(location, this.encoding, function(error, file){
+    if(error)
+      throw error;
+    
     this.file = file;
   });
 }
 
 Child.prototype.spawn = function(){
   var args = ['./child', this.filename, this.file, this.timeout.toString()];
-  console.log(args);
   return child_process.spawn(this.commandType, args, { stdio: ['pipe', 'pipe', 'pipe', 'ipc'] });
 }
 
