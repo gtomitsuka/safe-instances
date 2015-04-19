@@ -2,6 +2,7 @@
 
 //Modules
 var child_process = require('child_process');
+var path = require('path');
 var fs = require('fs');
 
 function Child(location, timeout, filename, encoding, commandType){
@@ -22,12 +23,12 @@ function Child(location, timeout, filename, encoding, commandType){
 }
 
 Child.prototype.spawn = function(){
-  if(this._isReady === true){
+  if(this._isReady === true)
+    throw new Error('file is not loaded');
+  
+  console.log(path.resolve('./child'));
   var args = ['./child', this.filename, this.file, this.timeout.toString()];
   return child_process.spawn(this.commandType, args, { stdio: ['pipe', 'pipe', 'pipe', 'ipc'] });
-  }else{
-    throw new Error('file is not loaded');
-  }
 }
 
 module.exports = Child;
