@@ -8,7 +8,7 @@ var file = process.argv[2];
 var timeout = new Date(process.argv[3]);
 
 try {
- vm.runInThisContext(file);
+ vm.runInThisContext(file, {timeout: 1000});
 }
 catch(e) {
     console.log(e); // Script execution timed out.
