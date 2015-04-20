@@ -20,16 +20,19 @@ function Child(locationOrCode, timeout, isFile, encoding, commandType){
 }
 
 Child.prototype.loadScript = function(){
-  if(this.isFile === false){
+  if(this.isFile === true){
+    throw new Error('No need to load script when script is given as a string.');
+  }
+  return new Promise(function(resolve, reject){
     fs.readFile(locationOrCode, this.encoding, function(error, file){
       if(error)
         throw error;
       
       this.file = file;
       this._isReady = true;
-      return Promise.resolve();
+      resolve();
     });
-  }
+  });
 }
 
 Child.prototype.spawn = function(){
