@@ -1,6 +1,6 @@
 {
   "name": "safe_children",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Run non-safe JS safely.",
   "main": "index.js",
   "scripts": {
