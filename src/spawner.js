@@ -32,8 +32,8 @@ Child.prototype.loadScript = function(){
       if(error)
         throw error;
       
-      self.file = file;
-      self._isReady = true;
+      this.file = file;
+      this._isReady = true;
       resolve();
     });
   });
