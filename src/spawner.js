@@ -28,7 +28,6 @@ Child.prototype.loadScript = function(){
   
   var self = this;
   return new Promise(function(resolve, reject){
-    var self = this;
     fs.readFile(path.resolve(self.fileLocation), self.encoding, function(error, file){
       if(error)
         throw error;
