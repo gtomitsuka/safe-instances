@@ -5,7 +5,7 @@ var vm = require('vm');
 var assert = require('assert');
 
 var file = process.argv[2];
-var timeout = new Date(process.argv[3]);
+var timeout = parseInt(process.argv[3], 10);
 
 try {
  vm.runInThisContext(file, {timeout: 1000});
