@@ -28,12 +28,13 @@ Child.prototype.loadScript = function(){
   
   var self = this;
   return new Promise(function(resolve, reject){
+    var self = this;
     fs.readFile(path.resolve(self.fileLocation), self.encoding, function(error, file){
       if(error)
         throw error;
       
-      this.file = file;
-      this._isReady = true;
+      self.file = file;
+      self._isReady = true;
       resolve();
     });
   });
