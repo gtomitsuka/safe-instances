@@ -11,22 +11,21 @@ function Child(locationOrCode, timeout, isFile, encoding, commandType){
   this.timeout = timeout || 6 * 60;
   this.logs = true; //Change as needed
   this._isReady = false;
-  
-  if(isFile === false){
+  this.isFile = isFile || true;
+  if(!isFile){
     this.file = locationOrCode;
     this._isReady = true;
   }
 }
 
 Child.prototype.loadScript = function(){
-  if(!(isFile === false)){
-    var self = this;
+  if(this.isFile === false){
     fs.readFile(locationOrCode, this.encoding, function(error, file){
       if(error)
         throw error;
       
-      self.file = file;
-      self._isReady = true;
+      this.file = file;
+      this._isReady = true;
       return Promise.resolve();
     });
   }
