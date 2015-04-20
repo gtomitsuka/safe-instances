@@ -28,8 +28,7 @@ Child.prototype.loadScript = function(){
   
   var self = this;
   return new Promise(function(resolve, reject){
-    console.log(self.fileLocation);
-    fs.readFile(self.fileLocation, self.encoding, function(error, file){
+    fs.readFile(path.resolve(self.fileLocation), self.encoding, function(error, file){
       if(error)
         throw error;
       
@@ -43,7 +42,7 @@ Child.prototype.loadScript = function(){
 Child.prototype.spawn = function(){
   if(this._isReady === false)
     throw new Error('file is not loaded');
-  
+  console.log(this.timeout);
   var args = [path.join(__dirname, 'child.js'), this.file, this.timeout];
   var child = child_process.spawn(this.commandType, args, { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
   child.stdout.on('data', function(data) {
