@@ -4,6 +4,7 @@
 var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
+var Promise = require('bluebird');
 
 function Child(locationOrCode, timeout, isFile, encoding, commandType){
   this.encoding = encoding || 'utf8';
