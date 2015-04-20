@@ -17,7 +17,7 @@
     "child",
     "process",
     "oratio",
-    "multiprocess"
+    "sandbox"
   ],
   "author": "Oratio.io",
   "license": "MIT",
