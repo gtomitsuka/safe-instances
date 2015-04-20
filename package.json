@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/oratio-io/safe_children/issues"
   },
-  "homepage": "https://github.com/oratio-io/safe_children"
+  "homepage": "https://github.com/oratio-io/safe_children",
+  "dependencies": {
+    "bluebird": "^2.9.24"
+  }
 }
