@@ -13,14 +13,14 @@ function Child(locationOrCode, timeout, isFile, encoding, commandType){
   this.logs = true; //Change as needed
   this._isReady = false;
   this.isFile = isFile || true;
-  if(!isFile){
+  if(!this.isFile){
     this.file = locationOrCode;
     this._isReady = true;
   }
 }
 
 Child.prototype.loadScript = function(){
-  if(this.isFile === true){
+  if(!this.isFile){
     throw new Error('No need to load script when script is given as a string.');
   }
   return new Promise(function(resolve, reject){
