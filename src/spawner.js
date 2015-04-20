@@ -9,8 +9,16 @@ function Child(locationOrCode, timeout, isFile, encoding, commandType){
   this.encoding = encoding || 'utf8';
   this.commandType = commandType || 'node';
   this.timeout = timeout || 6 * 60;
+  this.logs = true; //Change as needed
   this._isReady = false;
   
+  if(!(isFile === false)){
+    this.file = locationOrCode;
+    this._isReady = true;
+  }
+}
+
+Child.prototype.loadScript = function(){
   if(!(isFile === false)){
     var self = this;
     fs.readFile(locationOrCode, this.encoding, function(error, file){
@@ -19,11 +27,8 @@ function Child(locationOrCode, timeout, isFile, encoding, commandType){
       
       self.file = file;
       self._isReady = true;
+      return Promise.resolve();
     });
-  }else{
-    self.file = locationOrCode;
-    self._isReady = true;
-  }
 }
 
 Child.prototype.spawn = function(){
