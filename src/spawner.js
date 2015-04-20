@@ -12,7 +12,7 @@ function Child(locationOrCode, timeout, isFile, encoding, commandType){
   this.logs = true; //Change as needed
   this._isReady = false;
   
-  if(!(isFile === false)){
+  if(isFile === false){
     this.file = locationOrCode;
     this._isReady = true;
   }
