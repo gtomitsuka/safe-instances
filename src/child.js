@@ -7,5 +7,9 @@ var assert = require('assert');
 var file = process.argv[2];
 var timeout = new Date(process.argv[3]);
 
-vm.runInThisContext(file, {timeout: timeout});
-console.log('test: '+ test);
+try {
+ vm.runInThisContext(file);
+}
+catch(e) {
+    console.log(e); // Script execution timed out.
+}
