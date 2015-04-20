@@ -29,6 +29,7 @@ Child.prototype.loadScript = function(){
       self._isReady = true;
       return Promise.resolve();
     });
+  }
 }
 
 Child.prototype.spawn = function(){
