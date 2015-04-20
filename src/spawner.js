@@ -26,7 +26,7 @@ Child.prototype.loadScript = function(){
     throw new Error('No need to load script when script is given as a string.');
   }
   return new Promise(function(resolve, reject){
-    fs.readFile(this.file, this.encoding, function(error, file){
+    fs.readFile(this.fileLocation, this.encoding, function(error, file){
       if(error)
         throw error;
       
