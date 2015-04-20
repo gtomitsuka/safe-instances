@@ -12,7 +12,7 @@ function Child(locationOrCode, timeout, isFile, encoding, commandType){
   this.timeout = timeout || 6 * 60;
   this.logs = true; //Change as needed
   this._isReady = false;
-  this.isFile = isFile || true;
+  this.isFile = isFile === false ? false : true;
   if(this.isFile){
     this.fileLocation = locationOrCode;
   }else{
@@ -28,6 +28,7 @@ Child.prototype.loadScript = function(){
   
   var self = this;
   return new Promise(function(resolve, reject){
+    console.log(self.fileLocation);
     fs.readFile(self.fileLocation, self.encoding, function(error, file){
       if(error)
         throw error;
