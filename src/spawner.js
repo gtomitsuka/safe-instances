@@ -25,13 +25,15 @@ Child.prototype.loadScript = function(){
   if(!this.isFile){
     throw new Error('No need to load script when script is given as a string.');
   }
+  
+  var self = this;
   return new Promise(function(resolve, reject){
-    fs.readFile(this.fileLocation, this.encoding, function(error, file){
+    fs.readFile(self.fileLocation, self.encoding, function(error, file){
       if(error)
         throw error;
       
-      this.file = file;
-      this._isReady = true;
+      self.file = file;
+      self._isReady = true;
       resolve();
     });
   });
