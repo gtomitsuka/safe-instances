@@ -8,4 +8,4 @@ var file = process.argv[2];
 var timeout = new Date(process.argv[3]);
 
 vm.runInThisContext(file, {timeout: timeout});
-console.log(test);
+console.log('test: '+ test);
