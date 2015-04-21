@@ -1,7 +1,7 @@
 {
   "name": "safe_children",
-  "version": "1.2.7",
-  "description": "Run non-safe JS safely.",
+  "version": "1.2.8",
+  "description": "Run untrusted JS safely.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
