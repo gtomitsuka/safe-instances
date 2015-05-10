@@ -6,20 +6,29 @@ var path = require('path');
 var fs = require('fs');
 var Promise = require('bluebird');
 
-function Child(locationOrCode, timeout, isFile, encoding, commandType){
-  this.encoding = encoding || 'utf8';
-  this.commandType = commandType || 'node';
+function Child(code, timeout){
+  this.encoding = 'utf8';
+  this.commandType = 'node';
   this.timeout = timeout || 6 * 60;
-  this.logs = true; //Change as needed
-  this._isReady = false;
-  this.isFile = isFile === false ? false : true;
-  if(this.isFile){
-    this.fileLocation = locationOrCode;
-  }else{
-    this.file = locationOrCode;
-    this._isReady = true;
-  }
+  this.logs = true;
+  this.file = code;
 }
+
+Child.prototype.start = function(){
+  var timeout = this.timeout.toString();
+  var args = [path.join(__dirname, 'child.js'), this.file, timeout];
+  var child = child_process.spawn(this.commandType, args, { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
+  child.stdout.on('data', function(data) {
+    console.log(data.toString()); 
+  });
+  return child;
+}
+
+Child.prototype.contact = function(){
+  
+}
+
+module.exports = Child;
 
 Child.prototype.loadScript = function(){
   if(!this.isFile){
@@ -38,18 +47,3 @@ Child.prototype.loadScript = function(){
     });
   });
 }
-
-Child.prototype.spawn = function(){
-  if(this._isReady === false)
-    throw new Error('file is not loaded');
-    
-  var timeout = this.timeout.toString();
-  var args = [path.join(__dirname, 'child.js'), this.file, timeout];
-  var child = child_process.spawn(this.commandType, args, { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
-  child.stdout.on('data', function(data) {
-    console.log(data.toString()); 
-  });
-  return child;
-}
-
-module.exports = Child;
