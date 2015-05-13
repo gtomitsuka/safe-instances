@@ -1,8 +1,8 @@
-# safe_children
-A complete, functional, fast and simple Node.js child processing module.
+# safe-instances (previously called `safe_children`)
+A complete, functional, fast and simple Node.js threading module.
 
-`safe_children` was developed by Oratio.io for Oratio.js's Module System.
-It supports one unique thing: Children pools. For not creating too many child processes, you can specify a children pool and use them for your child processes. You might even use this for multi-threading.
+`safe-instances` was developed by Oratio.io for Oratio.js's Module System.
+It's based on children pools, allowing you to
 
 **NOTE:** With release 2.0, sending file names when doing `new Child()` is **DEPRECATED**. You must do `new ChildFile()`, as explained in the quick-start tutorial.
 
@@ -13,12 +13,12 @@ It supports one unique thing: Children pools. For not creating too many child pr
 # Getting Started
 
 ``` javascript
-var ChildPool = require('safe_children').Pool;
-var pool = new ChildPool(10); //Limit to 10 concurrent child processes.
+var Child = require('safe_children');
+var pool = new Child.Pool(10); //Creates pool with
 
 var child = new Child('process.handle("randomMessage", function(value, callback){ callback(value) }', 3 * 60);
 child.setPool(pool);
-child.start(); //Use .start() when using pools.
+child.start();
 
 child.contact('randomMessage', 'myValue') //NOTE: You might pass a third callback argument, too.
 .then(function(value){
@@ -29,10 +29,10 @@ child.contact('randomMessage', 'myValue') //NOTE: You might pass a third callbac
 Need to send file names instead of direct scripts when creating new script? Do:
 
 ``` javascript
-var ChildFile = require('safe_children').File;
-ChildFile.usesCache = false; //Default: true. If you don't want scripts to be cached, set this property to false.
+var ChildFile = require('safe_children');
+Child.File.usesCache = false; //Default: true. If you don't want scripts to be cached, set this property to false.
 
-var child = new ChildFile(__dirname + 'script.js', 3 * 60);
+var child = new Child.File(__dirname + 'script.js', 3 * 60);
 
 [...]
 ```
