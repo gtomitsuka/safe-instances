@@ -1,3 +1,3 @@
 /* by Oratio.io */
 
-module.exports = require('./src/spawner');
+module.exports = require('./src/parent');
