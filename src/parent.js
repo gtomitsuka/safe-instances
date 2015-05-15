@@ -101,17 +101,23 @@ function ChildFile(location, timeout){
 
   var self = this;
   return new Promise(function(resolve, reject){
-    fs.readFile(location, self.encoding, function(error, file){
-      if(error)
-        throw error;
+    if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined){
+      fs.readFile(location, self.encoding, function(error, file){
+        if(error)
+          throw error;
 
-      self.code = file;
-      resolve();
-    });
+        self.code = file;
+        cache[location] = file;
+        resolve();
+      });
+    }else{
+      self.code = cache[location];
+      process.nextTick(function(){
+        resolve()
+      });
   });
 }
 
 ChildFile.usesCache = true;
-ChildFile.prototype.contact = contactChild;
-ChildFile.prototype.start = startChild;
-
+ChildFile.prototype.contact = Child.prototype.contact;
+ChildFile.prototype.start = Child.prototype.start;
