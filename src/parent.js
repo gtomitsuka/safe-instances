@@ -1,10 +1,15 @@
 /* by Oratio.io */
 
-//Modules
+//Node Standard Modules
 var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
+
+//NPM Modules
 var Promise = require('bluebird');
+
+//safe-instances Modules
+var util = require('./util');
 
 function Pool(size, commandType){
   this.size = size;
@@ -68,7 +73,7 @@ Child.prototype.start = function(){
 
 Child.prototype.contact = function(messageType, message){
   return new Promise(function(resolve, reject){
-    var requestId = getRandomInt(10001, 99999);
+    var requestId = util.getRandomInt(10001, 99999);
 
     var self = this;
     var handler = function(error, message){
@@ -102,9 +107,4 @@ Child.prototype.loadScript = function(){
       resolve();
     });
   });
-}
-
-//Utility Methods
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
 }
