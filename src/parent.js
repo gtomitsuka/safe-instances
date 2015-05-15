@@ -99,7 +99,6 @@ function ChildFile(location, timeout){
   this.code = code;
   this.pool = null;
 
-  var self = this;
   return new Promise(function(resolve, reject){
     if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined){
       fs.readFile(location, self.encoding, function(error, file){
@@ -109,13 +108,14 @@ function ChildFile(location, timeout){
         self.code = file;
         cache[location] = file;
         resolve();
-      });
+      }.bind(this));
     }else{
       self.code = cache[location];
       process.nextTick(function(){
         resolve()
       });
-  });
+    }
+  }.bind(this));
 }
 
 ChildFile.usesCache = true;
