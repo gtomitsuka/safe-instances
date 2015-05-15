@@ -91,20 +91,27 @@ Child.prototype.contact = function(messageType, message){
 
 module.exports = Child;
 
-Child.prototype.loadScript = function(){
-  if(!this.isFile){
-    throw new Error('No need to load script when script is given as a string.');
-  }
+function ChildFile(location, timeout){
+  this.encoding = 'utf8';
+  this.commandType = 'node';
+  this.timeout = timeout || 60; //Defaults to 60 seconds
+  this.logs = true;
+  this.code = code;
+  this.pool = null;
 
   var self = this;
   return new Promise(function(resolve, reject){
-    fs.readFile(path.resolve(self.fileLocation), self.encoding, function(error, file){
+    fs.readFile(location, self.encoding, function(error, file){
       if(error)
         throw error;
 
-      self.file = file;
-      self._isReady = true;
+      self.code = file;
       resolve();
     });
   });
 }
+
+ChildFile.usesCache = true;
+ChildFile.prototype.contact = contactChild;
+ChildFile.prototype.start = startChild;
+
