@@ -13,11 +13,10 @@ It's based on children pools, allowing you to
 # Getting Started
 
 ``` javascript
-var Child = require('safe_children');
-var pool = new Child.Pool(10); //Creates pool with
+var Child = require('safe-instances');
+var pool = new Child.Pool(3); //Creates pool with 3 processes
 
-var child = new Child('process.handle("randomMessage", function(value, callback){ callback(value) }', 3 * 60);
-child.setPool(pool);
+var child = new Child('process.handle("randomMessage", function(value, callback){ callback(value) }', pool, 3 * 60);
 child.start();
 
 child.contact('randomMessage', 'myValue') //NOTE: You might pass a third callback argument, too.
@@ -26,11 +25,10 @@ child.contact('randomMessage', 'myValue') //NOTE: You might pass a third callbac
 });
 ```
 
-Need to send file names instead of direct scripts when creating new script? Do:
+Need to send file locations instead of strings when creating new script? Do:
 
-``` javascript
-var ChildFile = require('safe_children');
-Child.File.usesCache = false; //Default: true. If you don't want scripts to be cached, set this property to false.
+```  javascript
+Child.File.usesCache = false; //Default: true. Caches scripts for being re-used.
 
 var child = new Child.File(__dirname + 'script.js', 3 * 60);
 
@@ -39,15 +37,12 @@ var child = new Child.File(__dirname + 'script.js', 3 * 60);
 
 # Documentation
 
-### [`new Child(code, timeout)`](https://github.com/oratio-io/safe_children/blob/master/src/spawner.js#L9)
+### [`new Child(code, pool, timeout)`](https://github.com/oratio-io/safe_children/blob/master/src/spawner.js#L9)
 Returns new Child object with following properties:
 
-* child.start(); - Returns child's PID.
-* child.setPool(pool); Sets child's pool to pool. See Pooling for more details.
+* child.setPool(pool); Sets child's pool to pool.
 * child.encoding - Default: `utf8`.
-* child.commandType - Default: `node`. Need `iojs` or `nodejs` instead? Set this property to the command type needed if that's the case.
-* child.timeout - The timeout you set when creating a child - defaults to 6 minutes. Feel free to change this property - but only before beginning the script.
-* child.logs - Do `console.log`s from the child appear on your console? Your choice.
+* child.commandType - Default: `node`.
+* child.timeout - The timeout you set when creating a child - defaults to 1 minute. Only works before beginning the script.
+* child.logs - Do `console.log`s from the child appear on your console?
 * child.contact(event, message) - Returns `Promise`. Should be handled with `process.handle` in the child process.
-
-(Yes, there are a few more properties that aren't there for being messed up, but you can find them on the source.)

@@ -45,13 +45,13 @@ Pool.prototype.getProcess = function(){
 
 exports.Pool = Pool;
 
-function Child(code, timeout){
+function Child(code, pool, timeout){
   this.encoding = 'utf8';
   this.commandType = 'node';
   this.timeout = timeout || 60; //Defaults to 60 seconds
   this.logs = true;
   this.code = code;
-  this.pool = null;
+  this.pool = pool || null;
 
   //Private Properties
   this._messageHandler = {};
