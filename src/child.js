@@ -4,7 +4,15 @@
 var vm = require('vm');
 var assert = require('assert');
 
-var file = process.argv[2];
-var timeout = parseInt(process.argv[3], 10);
+//Global Variables
+var _handlers = {};
 
-vm.runInThisContext(file, {timeout: timeout});
+global.process.handle = function(message, callback){
+  _handlers[message] = callback;
+}
+
+process.on('message', function(message){
+  if(message.type === 'code'){
+    vm.runInThisContext(message.code, {timeout: message.timeout});
+  }
+})
