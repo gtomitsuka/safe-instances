@@ -11,43 +11,8 @@ var Promise = require('bluebird');
 //safe-instances Modules
 var util = require('./util');
 
-function Pool(size, commandType){
-  this.size = size;
-
-  this._processes = [];
-  this._handlers = {};
-
-  function handler(message){
-    var handlerFunction = this._handlers[message.id];
-    if(handlerFunction !== null){
-      handlerFunction(null, message.userMessage);
-    }else{
-      throw new Error('No handler specified for this message.');
-    }
-  }
-
-  var childFile = path.join(__dirname, 'child.js');
-  for(var i = 0; i < size; i++){
-    var child = child_process.spawn(commandType, [childFile, 'pool'], { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
-    child.on('message', handler);
-    this._processes[i] = {process: child, id: i, inUse: false};
-  }
-}
-
-Pool.prototype.getProcess = function(){
-  for(var i = 0; i < this.size; i++){
-    if(this._processes[i].inUse === false)
-      return this._processes[i];
-  }
-
-  return null;
-}
-
-exports.Pool = Pool;
-
 function Child(code, pool, timeout){
   this.encoding = 'utf8';
-  this.commandType = 'node';
   this.timeout = timeout || 60; //Defaults to 60 seconds
   this.logs = true;
   this.code = code;
@@ -88,12 +53,10 @@ Child.prototype.contact = function(messageType, message){
     this.process.send({messageType: message, id: requestId});
   })
 }
-
-module.exports = Child;
+Child.commandType = 'node';
 
 function ChildFile(location, timeout){
   this.encoding = 'utf8';
-  this.commandType = 'node';
   this.timeout = timeout || 60; //Defaults to 60 seconds
   this.logs = true;
   this.code = code;
@@ -101,7 +64,7 @@ function ChildFile(location, timeout){
 
   var self = this;
   return new Promise(function(resolve, reject){
-    if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined){
+    if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
       fs.readFile(location, self.encoding, function(error, file){
         if(error)
           throw error;
@@ -123,3 +86,41 @@ ChildFile.usesCache = true;
 ChildFile.prototype.setPool = Child.prototype.setPool;
 ChildFile.prototype.contact = Child.prototype.contact;
 ChildFile.prototype.start = Child.prototype.start;
+Child.File = ChildFile;
+
+//Pooling Function
+function Pool(size, commandType){
+  this.size = size;
+
+  this._processes = [];
+  this._handlers = {};
+
+  function handler(message){
+    var handlerFunction = this._handlers[message.id];
+    if(handlerFunction !== null){
+      handlerFunction(null, message.userMessage);
+    }else{
+      throw new Error('No handler specified for this message.');
+    }
+  }
+
+  var childFile = path.join(__dirname, 'child.js');
+  for(var i = 0; i < size; i++){
+    var child = child_process.spawn(Child.commandType, [childFile, 'pool'], { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
+    child.on('message', handler);
+    this._processes[i] = {process: child, id: i, inUse: false};
+  }
+}
+
+Pool.prototype.getProcess = function(){
+  for(var i = 0; i < this.size; i++){
+    if(this._processes[i].inUse === false)
+      return this._processes[i];
+  }
+
+  return null;
+}
+
+Child.Pool = Pool;
+
+module.exports = Child;
