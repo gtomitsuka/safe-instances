@@ -7,17 +7,22 @@ var fs = require('fs');
 
 //NPM Modules
 var Promise = require('bluebird');
+var messenger = require('messenger');
 
 //safe-instances Modules
 var util = require('./util');
 
-function Child(code, pool, timeout){
+function Child(code, pool, options){
   this.encoding = 'utf8';
-  this.timeout = timeout || 60; //Defaults to 60 seconds
-  this.logs = true;
+  this.timeout = options.timeout || 60; //Defaults to 60 seconds
+  this.logs = options.logs || true;
   this.code = code;
   this.pool = pool || null;
-
+  this.speakerPort = options.speakerPort || util.generateRandomInt(25010, 25400);
+  this.listenerPort = options.listenerPort || this.speakerPort;
+  this.speaker = messenger.createSpeaker(this.speakerPort);
+  this.listener = messenger.createListener(this.listenerPort);
+  
   //Private Properties
   this._messageHandler = {};
   this._errorHandler = {};
