@@ -1,4 +1,4 @@
-/* by Oratio.io */
+/* Check LICENSE for details. Developed by Oratio.io */
 
 //Node Standard Modules
 var child_process = require('child_process');
