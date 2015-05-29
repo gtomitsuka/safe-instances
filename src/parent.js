@@ -18,7 +18,7 @@ function Child(code, pool, options){
   this.logs = options.logs || true;
   this.code = code;
   this.pool = pool || null;
-  this.speakerPort = options.speakerPort || util.generateRandomInt(25010, 25400);
+  this.speakerPort = options.speakerPort || util.getRandomInt(25010, 25400);
   this.listenerPort = options.listenerPort || this.speakerPort;
   this.speaker = messenger.createSpeaker(this.speakerPort);
   this.listener = messenger.createListener(this.listenerPort);
