@@ -13,7 +13,6 @@ var messenger = require('messenger');
 var util = require('./util');
 
 function Child(code, pool, options){
-  this.encoding = 'utf8';
   this.timeout = options.timeout || 60; //Defaults to 60 seconds
   this.logs = options.logs || true;
   this.code = code;
@@ -36,7 +35,13 @@ Child.prototype.start = function(){
   var timeout = this.timeout.toString();
   var childProcess = this.pool.getProcess();
 
-  childProcess.process.send({code: code, timeout: timeout})
+  childProcess.process.send({
+    code: code,
+    timeout: timeout,
+    speakerPort: this.speakerPort,
+    listenerPort: this.listenerPort
+  });
+  
   this.process = childProcess;
   return this.process;
 }
@@ -64,11 +69,14 @@ Child.commandType = 'node';
 //File Based.
 function ChildFile(location, timeout){
   this.encoding = 'utf8';
-  this.timeout = timeout || 60; //Defaults to 60 seconds
-  this.logs = true;
+  this.timeout = options.timeout || 60; //Defaults to 60 seconds
+  this.logs = options.logs || true;
   this.code = code;
-  this.pool = null;
-
+  this.pool = pool || null;
+  this.speakerPort = options.speakerPort || util.getRandomInt(25010, 25400);
+  this.listenerPort = options.listenerPort || this.speakerPort;
+  this.speaker = messenger.createSpeaker(this.speakerPort);
+  this.listener = messenger.createListener(this.listenerPort);
   var self = this;
   return new Promise(function(resolve, reject){
     if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
