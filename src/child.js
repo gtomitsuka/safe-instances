@@ -1,8 +1,7 @@
-/* by Oratio.io */
+/* Check LICENSE for details. Developed by Oratio.io */
 
-//Modules
+//Node.js Standard Modules
 var vm = require('vm');
-var assert = require('assert');
 
 //Global Variables
 var _handlers = {};
