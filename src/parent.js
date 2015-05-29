@@ -63,7 +63,6 @@ Child.prototype.contact = function(messageType, message){
     this.process.send({messageType: message, id: requestId});
   })
 }
-Child.commandType = 'node';
 
 
 //File Based.
