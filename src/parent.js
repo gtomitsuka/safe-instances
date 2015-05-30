@@ -102,5 +102,6 @@ ChildFile.prototype.contact = Child.prototype.contact;
 ChildFile.prototype.start = Child.prototype.start;
 
 Child.File = ChildFile;
+Child.Pool = require('./pool')
 
 module.exports = Child;
