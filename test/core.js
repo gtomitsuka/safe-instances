@@ -3,6 +3,8 @@ var Child = require('../index');
 var assert = require('assert');
 var child_process = require('child_process');
 
+var processString = 'process.handle("parentMessage", function(value, callback){callback(value)});';
+
 describe('Pool', function(){
   it('starts successfully', function(){
     global.pool = new Child.Pool(2);
@@ -16,5 +18,16 @@ describe('Pool', function(){
 describe('Child', function(){
   var child;
 
-  //it('')
+  it('spawns child', function(){
+    child = new Child(processString, pool);
+    child.start();
+  })
+
+  it('communicates with child successfully', function(done){
+    child.contact('parentMessage', 'myValue')
+    .then(function(value){
+      assert.equal(value, 'myValue');
+      done();
+    });
+  })
 })
