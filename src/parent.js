@@ -17,11 +17,8 @@ function Child(code, pool, options){
   this.logs = options.logs || true;
   this.code = code;
   this.pool = pool || null;
-  this.speakerPort = options.speakerPort || util.getRandomInt(25010, 25400);
-  this.listenerPort = options.listenerPort || this.speakerPort;
-  this.speaker = messenger.createSpeaker(this.speakerPort);
-  this.listener = messenger.createListener(this.listenerPort);
-  
+  this.adapter = new Child.Adapter();
+
   //Private Properties
   this._messageHandler = {};
   this._errorHandler = {};
@@ -32,25 +29,25 @@ Child.prototype.setPool = function(pool){
 }
 
 Child.prototype.start = function(){
-  var timeout = this.timeout.toString();
   var childProcess = this.pool.getProcess();
-
-  childProcess.process.send({
-    code: code,
-    timeout: timeout,
-    speakerPort: this.speakerPort,
-    listenerPort: this.listenerPort
-  });
-  
   this.process = childProcess;
+
+  (this.adapter.init.bind(this))();
+
+  childProcess.send({
+    code: this.code,
+    timeout: this.timeout,
+    adapter: this.AdapterPath
+  });
+
   return this.process;
 }
 
-Child.prototype.contact = function(messageType, message){
-  return new Promise(function(resolve, reject){
-    var requestId = util.getRandomInt(10001, 99999);
+Child.prototype.contact = function(event, message){
+  var requestId = util.getRandomInt(10001, 99999);
+  var self = this;
 
-    var self = this;
+  return new Promise(function(resolve, reject){
     var handler = function(error, message){
       self.pool.inUse = false;
       if(error){
@@ -59,9 +56,9 @@ Child.prototype.contact = function(messageType, message){
       return resolve(message)
     }
 
-    child.pool._handlers[requestId] = handler;
-    this.process.send({messageType: message, id: requestId});
-  })
+    self.pool._handlers[requestId] = handler;
+    self.process.send({type: 'message', event: event, param: message, id: requestId});
+  });
 }
 
 
