@@ -10,3 +10,13 @@ var Promise = require('bluebird');
 
 //safe-instances Modules
 var util = require('./util');
+
+function Child(_code, _pool, _timeout){
+  this.code = _code;
+  this.pool = _pool;
+  this.timeout = _timeout;
+  this.process = this.pool.getProcess();
+  this.adapter = new Child.Adapter(this);
+}
+
+module.exports = Child;
