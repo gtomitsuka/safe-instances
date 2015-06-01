@@ -10,3 +10,10 @@ var Promise = require('bluebird');
 
 //safe-instances Modules
 var util = require('./util');
+
+//The Pool handles the
+function Pool(size){
+  this.processes = [];
+}
+
+module.exports = Pool;
