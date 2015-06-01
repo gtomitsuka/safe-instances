@@ -19,6 +19,10 @@ function Pool(size){
     this.processes[i] = child_process.spawn(Pool.command, [Pool.file], { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
 }
 
+Pool.prototype.killAll = function(signal){
+  this.kill(signal);
+}
+
 Pool.command = 'node';
 Pool.file = './child.js';
 
