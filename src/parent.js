@@ -10,6 +10,7 @@ var Promise = require('bluebird');
 
 //safe-instances Modules
 var util = require('./util');
+var adapter = require('./adapter');
 
 function Child(_code, _pool, _timeout){
   this.code = _code;
@@ -19,4 +20,8 @@ function Child(_code, _pool, _timeout){
   this.adapter = new Child.Adapter(this);
 }
 
+//Child's Constructor Properties
+Child.Adapter = adapter.Message; //Default Adapter.
+
+//Exported functions
 module.exports = Child;
