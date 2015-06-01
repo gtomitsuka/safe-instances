@@ -20,6 +20,20 @@ function Child(_code, _pool, _timeout){
   this.adapter = new Child.Adapter(this);
 }
 
+Child.prototype.start = function(){
+  this.adapter.init();
+
+  this.process.send({
+    code: this.code,
+    timeout: this.timeout,
+    messageHandler: this.adapter.messageHandler //Will be run before code on process.
+  });
+}
+
+Child.process.kill = function(signal){
+  this.process.kill(signal); //New process creation is handled by
+}
+
 //Child's Constructor Properties
 Child.Adapter = adapter.Message; //Default Adapter.
 
