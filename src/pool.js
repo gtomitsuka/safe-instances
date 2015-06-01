@@ -14,6 +14,12 @@ var util = require('./util');
 //The Pool handles the
 function Pool(size){
   this.processes = [];
+
+  for(var i = 0; i < size; i++)
+    this.processes[i] = child_process.spawn(Pool.command, [Pool.file], { stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
 }
+
+Pool.command = 'node';
+Pool.file = './child.js';
 
 module.exports = Pool;
