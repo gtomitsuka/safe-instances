@@ -34,6 +34,14 @@ Child.process.kill = function(signal){
   this.process.kill(signal); //New process creation is handled by
 }
 
+//Inter-process communication
+Child.prototype.contact = function(params){
+  return new Promise(function(resolve, reject){
+    this.adapter.contactChild(params)
+    .then(resolve, reject);
+  });
+}
+
 //Child's Constructor Properties
 Child.Adapter = adapter.Message; //Default Adapter.
 
