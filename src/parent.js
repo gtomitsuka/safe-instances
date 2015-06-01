@@ -42,6 +42,35 @@ Child.prototype.contact = function(params){
   });
 }
 
+function ChildFile(location, _pool, _timeout){
+  this.pool = _pool;
+  this.timeout = _timeout;
+  this.process = this.pool.getProcess();
+  this.adapter = new Child.Adapter(this);
+
+  var self = this;
+  if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
+    return new Promise(function(resolve, reject){
+      fs.readFile(location, self.encoding, function(error, file){
+        if(error)
+          throw error;
+
+        self.code = file;
+        cache[location] = file;
+        resolve();
+      });
+    }else{
+      self.code = cache[location];
+      process.nextTick(function(){
+        resolve();
+      });
+    }
+  });
+}
+
+ChildFile.prototype = Object.create(Child.prototype);
+ChildFile.prototype.constructor = ChildFile;
+
 //Child's Constructor Properties
 Child.Adapter = adapter.Message; //Default Adapter.
 
