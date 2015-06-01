@@ -49,8 +49,8 @@ function ChildFile(location, _pool, _timeout){
   this.adapter = new Child.Adapter(this);
 
   var self = this;
-  if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
-    return new Promise(function(resolve, reject){
+  return new Promise(function(resolve, reject){
+    if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
       fs.readFile(location, self.encoding, function(error, file){
         if(error)
           throw error;
