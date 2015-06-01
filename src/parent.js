@@ -4,7 +4,8 @@
 var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
-
+var readFile = Promise.promisify(fs.readFile);
+var nextTick = Promise.promisify(process.nextTick);
 //NPM Modules
 var Promise = require('bluebird');
 
@@ -48,24 +49,21 @@ function ChildFile(location, _pool, _timeout){
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
 
-  var self = this;
-  return new Promise(function(resolve, reject){
-    if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
-      fs.readFile(location, self.encoding, function(error, file){
-        if(error)
-          throw error;
 
-        self.code = file;
-        cache[location] = file;
-        resolve();
-      });
-    }else{
-      self.code = cache[location];
-      process.nextTick(function(){
-        resolve();
-      });
-    }
-  });
+  if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
+    return readFile(location, this.encoding)
+    .then(function(error, file){
+      if(error)
+        throw error;
+
+      this.code = file;
+      cache[location] = file;
+      return Promise.resolve();
+    }.bind(this));
+  }else{
+    self.code = cache[location];
+    return nextTick();
+  }
 }
 
 ChildFile.prototype = Object.create(Child.prototype);
