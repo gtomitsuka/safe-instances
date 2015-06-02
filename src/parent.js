@@ -4,10 +4,13 @@
 var child_process = require('child_process');
 var path = require('path');
 var fs = require('fs');
-var readFile = Promise.promisify(fs.readFile);
-var nextTick = Promise.promisify(process.nextTick);
+
 //NPM Modules
 var Promise = require('bluebird');
+
+//Promisified Functions
+var readFile = Promise.promisify(fs.readFile);
+var nextTick = Promise.promisify(process.nextTick);
 
 //safe-instances Modules
 var util = require('./util');
