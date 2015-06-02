@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/oratio-io/safe_children",
   "dependencies": {
-    "bluebird": "^2.9.24"
+    "bluebird": "^2.9.27"
   }
 }
