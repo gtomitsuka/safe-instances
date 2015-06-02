@@ -14,7 +14,7 @@ var nextTick = Promise.promisify(process.nextTick);
 
 //safe-instances Modules
 var util = require('./util');
-var messageAdapter = require('../message');
+var messageAdapter = require('../messages');
 
 function Child(_code, _pool, _timeout){
   this.code = _code;
