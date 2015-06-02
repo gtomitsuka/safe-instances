@@ -1,4 +1,6 @@
 # safe_children
+
+[![Join the chat at https://gitter.im/oratio-io/safe-instances](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/oratio-io/safe-instances?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Run non-safe JS safely.
 
 `safe_children` was developed by Oratio.io for Oratio.js's Module System.
