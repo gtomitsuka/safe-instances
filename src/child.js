@@ -13,7 +13,7 @@ global.process.handle = function(message, callback){
 
 process.on('message', function(message){
   if(message.type === 'code'){
-    vm.runInThisContext(message.code, {timeout: message.timeout});
+    vm.runInThisContext(message.code, {timeout: message.timeout, displayErrors: true});
     return;
   }
 
