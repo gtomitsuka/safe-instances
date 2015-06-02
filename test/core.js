@@ -3,7 +3,7 @@ var Child = require('../index');
 var assert = require('assert');
 var child_process = require('child_process');
 
-var processString = 'process.handle("parentMessage", function(value, callback){callback(value)});';
+var processString = 'process.handle(\'parentMessage\', function(value, callback){callback(value)});';
 
 describe('Pool', function(){
   it('starts successfully', function(){
@@ -29,5 +29,11 @@ describe('Child', function(){
       assert.equal(value, 'myValue');
       done();
     });
+  })
+})
+
+describe('Pool#killAll', function(){
+  it('kills all processes when done', function(){
+    global.pool.killAll();
   })
 })
