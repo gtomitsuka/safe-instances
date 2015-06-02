@@ -34,7 +34,7 @@ Child.prototype.start = function(){
   });
 }
 
-Child.process.kill = function(signal){
+Child.prototype.kill = function(signal){
   this.process.kill(signal); //New process creation is handled by
 }
 
