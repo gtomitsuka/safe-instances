@@ -14,7 +14,7 @@ var nextTick = Promise.promisify(process.nextTick);
 
 //safe-instances Modules
 var util = require('./util');
-var adapter = require('./adapter');
+var messageAdapter = require('../message');
 
 function Child(_code, _pool, _timeout){
   this.code = _code;
@@ -73,7 +73,8 @@ ChildFile.prototype = Object.create(Child.prototype);
 ChildFile.prototype.constructor = ChildFile;
 
 //Child's Constructor Properties
-Child.Adapter = adapter.Message; //Default Adapter.
+Child.Adapter = messageAdapter; //Default Adapter.
+Child.Pool = require('./pool');
 
 //Exported functions
 module.exports = Child;
