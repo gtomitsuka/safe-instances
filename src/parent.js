@@ -30,7 +30,7 @@ Child.prototype.start = function(){
   this.process.send({
     code: this.code,
     timeout: this.timeout,
-    messageHandler: this.adapter.messageHandler //Will be run before code on process.
+    messageHandler: this.adapter.contactHandler //Will be run before code on process.
   });
 }
 
@@ -40,10 +40,7 @@ Child.prototype.kill = function(signal){
 
 //Inter-process communication
 Child.prototype.contact = function(params){
-  return new Promise(function(resolve, reject){
-    this.adapter.contactChild(params)
-    .then(resolve, reject);
-  });
+  return this.adapter.contact(params);
 }
 
 function ChildFile(location, _pool, _timeout){
