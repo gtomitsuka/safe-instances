@@ -27,5 +27,8 @@
   "homepage": "https://github.com/oratio-io/safe-instances",
   "dependencies": {
     "bluebird": "^2.9.27"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5"
   }
 }
