@@ -4,19 +4,34 @@
    Description: Uses default, built-in child_process messages. */
 
 var Promise = require('bluebird');
-
+var util = require('../src/util');
 function Adapter(child){
   this.child = child;
+  this.callbacks = {};
+
   this.child.process.on('message', function(result){
-    this.child.callbacks[result.listener]();
-  })
+    this.callbacks[result.id](result.message);
+  }.bind(this));
 }
 
 Adapter.prototype.init = function(){}; //Unnecessary.
 
-Adapter.prototype.contact = function(type, message){
-  return new Promise(function(resolve, reject){
-    this.child.process.send({type: 'contact', listener: type, message: message});
+Adapter.prototype.contact = function(handler, message, callback){
+  var self = this;
+  return new Promise(function(resolve){
+    var id = util.getRandomInt(10000, 999999);
+    var block = {type: 'contact', value: message, handler: handler, id: id};
+
+    function callbackFunction(value){
+      resolve(value);
+      if(callback != null)
+        callback(value);
+
+      self.callbacks[id] = null; //Delete reference after done.
+    }
+
+    this.callbacks[id] = callbackFunction;
+    this.child.process.send(block);
   }.bind(this));
 }
 
