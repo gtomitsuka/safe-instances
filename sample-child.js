@@ -3,27 +3,15 @@
 var http = require('http');
 
 process.handle('parentMessage', function(value, callback){
-  callback(value)
+  callback(value);
 });
 
-process.handle('timeTakingMessage', function(value, callback){
+process.handle('minimalValue', function(value, callback){
+  callback(Math.min.apply(Math, value));
+});
+
+process.handle('timeoutedMessage', function(value, callback){
   setTimeout(function(){
     callback(value);
   }, 50)
-});
-
-process.handle('httpReturningMessage', function(value, callback){
-  var options = {
-    host: 'example.com',
-    port: 80,
-    path: '/'
-  };
-
-  http.get(options, function(response){
-    response.on('end', function(){
-      callback();
-    });
-  }).on("error", function(error){
-    throw error;
-  });
 });
