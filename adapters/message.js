@@ -7,13 +7,16 @@ var Promise = require('bluebird');
 
 function Adapter(child){
   this.child = child;
+  this.child.process.on('message', function(result){
+    this.child.callbacks[result.listener]();
+  })
 }
 
 Adapter.prototype.init = function(){}; //Unnecessary.
 
 Adapter.prototype.contact = function(type, message){
   return new Promise(function(resolve, reject){
-    this.child.send({type: 'contact', listener: type, message: message});
+    this.child.process.send({type: 'contact', listener: type, message: message});
   }.bind(this));
 }
 
