@@ -17,7 +17,7 @@ process.on('message', function(message){
     return;
   }
 
-  if(message.type === 'message'){
+  if(message.type === 'contact'){
     function callbackHandler(returnedMessage){
       process.send({type: 'callback', event: message.event, id: message.id, message: returnedMessage});
     }
