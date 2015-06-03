@@ -1,10 +1,10 @@
 {
-  "name": "safe_children",
-  "version": "1.2.8",
-  "description": "Run untrusted JS safely.",
+  "name": "safe-instances",
+  "version": "2.0.0",
+  "description": "A complete, functional, fast, safe and simple Node.js child processing module.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,6 @@
   },
   "homepage": "https://github.com/oratio-io/safe_children",
   "dependencies": {
-    "bluebird": "^2.9.24"
+    "bluebird": "^2.9.27"
   }
 }

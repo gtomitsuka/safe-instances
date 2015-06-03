@@ -1,10 +1,32 @@
-/* by Oratio.io */
+/* Check LICENSE for details. Developed by Oratio.io */
 
-//Modules
+//Node.js Standard Modules
 var vm = require('vm');
-var assert = require('assert');
 
-var file = process.argv[2];
-var timeout = parseInt(process.argv[3], 10);
+//Global Variables
+var _handlers = {};
 
-vm.runInThisContext(file, {timeout: timeout});
+global.process.handle = function(message, callback){
+  _handlers[message] = callback;
+}
+
+
+process.on('message', function(message){
+  if(message.type === 'init'){
+    if(message.allowsRequire)
+      global.require = require;
+
+    vm.runInThisContext(message.code, {timeout: message.timeout, displayErrors: true});
+    return;
+  }
+
+  if(message.type === 'contact'){
+    function callbackHandler(returned){
+      process.send({listener: message.listener, id: message.id, message: returned});
+    }
+
+    return _handlers[message.handler](message.value, callbackHandler);
+  }
+
+  throw new Error('This kind of message isn\'t currently accepted.')
+})
