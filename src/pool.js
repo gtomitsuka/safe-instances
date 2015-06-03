@@ -53,6 +53,6 @@ Pool.prototype.restart = function(){
 }
 
 Pool.command = 'node';
-Pool.file = './child.js';
+Pool.file = 'src/child.js';
 
 module.exports = Pool;
