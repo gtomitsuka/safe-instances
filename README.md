@@ -1,6 +1,7 @@
 # safe-instances (previously called `safe_children`)
 [![Build Status](https://travis-ci.org/oratio-io/safe-instances.svg?branch=master)](https://travis-ci.org/oratio-io/safe-instances)
 [![Join the chat at https://gitter.im/oratio-io/safe-instances](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/oratio-io/safe-instances?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Downloads per month](https://img.shields.io/npm/dm/localeval.svg)](http://npmjs.org/package/safe-instances)
 
 A complete, functional, fast and simple Node.js threading module.
 
