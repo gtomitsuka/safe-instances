@@ -22,14 +22,22 @@ function Child(_code, _pool, _timeout){
   this.timeout = _timeout;
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
+
+  //Process logs
+  if(Child.logs === true){
+    this.process.stdout.pipe(process.stdout);
+    this.process.stderr.pipe(process.stderr);
+  }
 }
 
 Child.prototype.start = function(){
   this.adapter.init();
 
   this.process.send({
+    type: 'init',
     code: this.code,
     timeout: this.timeout,
+    allowsRequire: Child.allowsRequire,
     messageHandler: this.adapter.contactHandler //Will be run before code on process.
   });
 }
@@ -39,8 +47,8 @@ Child.prototype.kill = function(signal){
 }
 
 //Inter-process communication
-Child.prototype.contact = function(params){
-  return this.adapter.contact(params);
+Child.prototype.contact = function(handler, message){
+  return this.adapter.contact(handler, message);
 }
 
 function ChildFile(location, _pool, _timeout){
@@ -70,6 +78,8 @@ ChildFile.prototype = Object.create(Child.prototype);
 ChildFile.prototype.constructor = ChildFile;
 
 //Child's Constructor Properties
+Child.logs = true;
+Child.allowsRequire = false;
 Child.Adapter = messageAdapter; //Default Adapter.
 Child.Pool = require('./pool');
 
