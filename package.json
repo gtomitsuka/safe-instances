@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oratio-io/safe_children.git"
+    "url": "https://github.com/oratio-io/safe-instances.git"
   },
   "keywords": [
     "safe",
@@ -22,9 +22,9 @@
   "author": "Oratio.io",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oratio-io/safe_children/issues"
+    "url": "https://github.com/oratio-io/safe-instances/issues"
   },
-  "homepage": "https://github.com/oratio-io/safe_children",
+  "homepage": "https://github.com/oratio-io/safe-instances",
   "dependencies": {
     "bluebird": "^2.9.27"
   }
