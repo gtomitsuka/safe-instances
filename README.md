@@ -12,7 +12,7 @@ It's based on children pools, allowing you to
 
 # Installation
 
-`npm install safe_children`
+`npm install safe-instances`
 
 # Getting Started
 
