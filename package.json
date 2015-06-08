@@ -1,6 +1,6 @@
 {
-  "name": "safe-instances",
-  "version": "2.0.2",
+  "name": "safe_children",
+  "version": "1.5.0",
   "description": "A complete, functional, fast, safe and simple Node.js child processing module.",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/oratio-io/safe-instances.git"
+    "url": "https://github.com/oratio-io/safe_children.git"
   },
   "keywords": [
     "safe",
@@ -22,9 +22,9 @@
   "author": "Oratio.io",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/oratio-io/safe-instances/issues"
+    "url": "https://github.com/oratio-io/safe_children/issues"
   },
-  "homepage": "https://github.com/oratio-io/safe-instances",
+  "homepage": "https://github.com/oratio-io/safe_children",
   "dependencies": {
     "bluebird": "^2.9.27"
   },
