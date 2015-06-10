@@ -31,22 +31,60 @@ child.contact('randomMessage', 'myValue') //NOTE: You might pass a third callbac
 
 Need to send file locations instead of strings when creating new script? Do:
 
-```  javascript
+``` javascript
+var Child = require('safe-instances');
 Child.File.usesCache = false; //Default: true. Caches scripts for being re-used.
 
 var child = new Child.File(__dirname + 'script.js', 3 * 60);
-
+child.start();
 [...]
 ```
 
-# Documentation
+# API Documentation
 
-### [`new Child(code, pool, timeout)`](https://github.com/oratio-io/safe_children/blob/master/src/spawner.js#L9)
-Returns new Child object with following properties:
+## Child properties
+### Child.Adapter
+Adapter for child.
 
-* child.setPool(pool); Sets child's pool to pool.
-* child.encoding - Default: `utf8`.
-* child.commandType - Default: `node`.
-* child.timeout - The timeout you set when creating a child - defaults to 1 minute. Only works before beginning the script.
-* child.logs - Do `console.log`s from the child appear on your console?
-* child.contact(event, message) - Returns `Promise`. Should be handled with `process.handle` in the child process.
+### Child.logs
+Boolean. Default: `true`. If the `console.log`s running on the child process appear on the parent process, too.
+
+### Child.allowsRequire
+Boolean. Default: `false`. If `require()`s are allowed in the child process. Only accept this if the source is trustable.
+
+
+## `new Child(code, pool, timeout)`
+
+### Child#start()
+Function for starting children.
+
+### Child#timeout
+Returns timeout passed on start. Can be changed, but only before `Child#start()` is called.
+
+### Child#code
+Returns code passed as the first argument. Can be changed, but only before `Child#start()` is called.
+
+### Child#kill(signal)
+Kills child process. A new process is automagically created by the pool.
+
+### Child#contact(handler, message)
+Return Promise.
+Contacts child. Example:
+``` javascript
+// Parent
+child.contact('database query', 'SELECT * FROM Table')
+.then(function(rows){
+  console.log(rows); //Yay! Did a query in a child process!
+}).catch(function(error){
+  console.error(error); //Query error.
+});
+
+//Child
+process.handle('database query', function(argument){
+  return pg.query(argument); //Can even be synchronous, we're on a child process.
+});
+```
+Please note that if there's a fatal contact failure, an error will be actually thrown, so there's no need to handle `safe-instances` errors in the returned promise.
+
+## `Child.File(location, pool, timeout)`
+Shares API with `Child`. Getting Started guide already covers everything.
