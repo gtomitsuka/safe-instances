@@ -13,7 +13,7 @@ global.process.handle = function(message, callback){
 
 process.on('message', function(message){
   if(message.type === 'init'){
-    if(message.allowsRequire)
+    if(message.isSafe)
       global.require = require;
 
     vm.runInThisContext(message.code, {timeout: message.timeout, displayErrors: true});
