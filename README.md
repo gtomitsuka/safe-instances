@@ -20,7 +20,7 @@ It's based on children pools, allowing you to
 var Child = require('safe-instances');
 var pool = new Child.Pool(3); //Creates pool with 3 processes
 
-var child = new Child('process.handle("randomMessage", function(value, callback){ callback(value) }', pool, 3 * 60);
+var child = new Child('process.handle("randomMessage", function(value, callback){ callback(value) })', pool, 3 * 60);
 child.start();
 
 child.contact('randomMessage', 'myValue') //NOTE: You might pass a third callback argument, too.
@@ -81,7 +81,7 @@ child.contact('database query', 'SELECT * FROM Table')
 
 //Child
 process.handle('database query', function(argument){
-  return pg.query(argument); //Can even be synchronous, we're on a child process.
+  return db.query(argument); //Can even be synchronous, we're on a child process.
 });
 ```
 Please note that if there's a fatal contact failure, an error will be actually thrown, so there's no need to handle `safe-instances` errors in the returned promise.
