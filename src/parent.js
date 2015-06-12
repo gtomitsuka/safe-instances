@@ -31,13 +31,14 @@ function Child(_code, _pool, _timeout){
 }
 
 Child.prototype.start = function(){
-  this.adapter.init();
+  if(typeof this.adapter.init === 'function')
+    this.adapter.init();
 
   this.process.send({
     type: 'init',
     code: this.code,
     timeout: this.timeout,
-    allowsRequire: Child.allowsRequire,
+    isSafe: Child.isSafe,
     messageHandler: this.adapter.contactHandler //Will be run before code on process.
   });
 }
@@ -79,7 +80,7 @@ ChildFile.prototype.constructor = ChildFile;
 
 //Child's Constructor Properties
 Child.logs = true;
-Child.allowsRequire = false;
+Child.isSafe = false;
 Child.Adapter = messageAdapter; //Default Adapter.
 Child.Pool = require('./pool');
 
