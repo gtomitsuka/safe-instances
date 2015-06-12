@@ -14,8 +14,6 @@ function Adapter(child){
   }.bind(this));
 }
 
-Adapter.prototype.init = function(){}; //Unnecessary.
-
 Adapter.prototype.contact = function(handler, message, callback){
   var self = this;
   return new Promise(function(resolve){
