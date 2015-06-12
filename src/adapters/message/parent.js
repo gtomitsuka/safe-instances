@@ -33,6 +33,4 @@ Adapter.prototype.contact = function(handler, message, callback){
   }.bind(this));
 }
 
-Adapter.prototype.contactHandler = function(){}.toString(); //For the Messages Adapter, handling is done by default.
-
 module.exports = Adapter;
