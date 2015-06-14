@@ -16,6 +16,9 @@ process.on('message', function(message){
     if(message.isSafe)
       global.require = require;
 
+    //Adapter Initialization
+    require(message.adapter.location);
+
     vm.runInThisContext(message.code, {timeout: message.timeout, displayErrors: true});
     return;
   }

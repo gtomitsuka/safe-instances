@@ -25,5 +25,7 @@ Adapter.prototype.init = function(){
   }.bind(this));
 }
 
-Adapter.server = 'child';
+Adapter.location = __dirname + '/child.js';
+console.log(Adapter.location);
+
 module.exports = Adapter;
