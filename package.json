@@ -1,6 +1,6 @@
 {
   "name": "safe-instances",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "A complete, functional, fast, safe and simple Node.js child processing module.",
   "main": "index.js",
   "scripts": {
