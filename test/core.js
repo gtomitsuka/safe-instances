@@ -7,7 +7,7 @@ var child_process = require('child_process');
 var processString = fs.readFileSync(__dirname + '/../sample-child.js', 'utf8');
 var unicodeString = 'По оживлённым берегам ♖	♘	♗	♕	♔	♗	♘	♖ άντʼ ἂν ἐξήκοι σα';
 
-Child.allowsRequire = true;
+Child.isSafe = true;
 
 describe('Pool', function(){
   it('starts successfully', function(){

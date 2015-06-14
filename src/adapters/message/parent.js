@@ -4,7 +4,7 @@
    Description: Uses default, built-in child_process messages. */
 
 var Promise = require('bluebird');
-var util = require('../src/util');
+var util = require('../../util');
 function Adapter(child){
   this.child = child;
   this.callbacks = {};
