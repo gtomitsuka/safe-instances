@@ -39,6 +39,7 @@ Child.prototype.start = function(){
     code: this.code,
     timeout: this.timeout,
     isSafe: Child.isSafe,
+    adapterParams: this.adapter.params,
     messageHandler: this.adapter.contactHandler //Will be run before code on process.
   });
 }

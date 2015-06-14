@@ -15,9 +15,8 @@ function Adapter(child){
 }
 
 Adapter.prototype.contact = function(handler, message, callback){
-  var self = this;
   return new Promise(function(resolve){
-    var id = util.getRandomInt(10000, 999999);
+    var id = util.getRandomInt(1, 999999);
     var block = {type: 'contact', value: message, handler: handler, id: id};
 
     function callbackFunction(value){
@@ -25,8 +24,8 @@ Adapter.prototype.contact = function(handler, message, callback){
       if(callback != null)
         callback(value);
 
-      self.callbacks[id] = null; //Delete reference after done.
-    }
+      this.callbacks[id] = null; //Delete reference after done.
+    }.bind(this);
 
     this.callbacks[id] = callbackFunction;
     this.child.process.send(block);
