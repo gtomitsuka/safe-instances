@@ -17,9 +17,9 @@ var util = require('./util');
 var messageAdapter = require('../messages');
 
 function Child(_code, _pool, _timeout){
-  this.code = _code;
-  this.pool = _pool;
-  this.timeout = _timeout;
+  this.code = _code || '';
+  this.pool = _pool || null;
+  this.timeout = _timeout || null;
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
 
@@ -44,7 +44,7 @@ Child.prototype.start = function(){
 }
 
 Child.prototype.kill = function(signal){
-  this.process.kill(signal); //New process creation is handled by
+  this.process.kill(signal); //New process creation is handled by pool.
 }
 
 //Inter-process communication
