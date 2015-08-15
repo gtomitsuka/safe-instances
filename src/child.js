@@ -4,12 +4,16 @@
 var vm = require('vm');
 
 //Global Variables
+var isReady = false;
 var _handlers = {};
 
 global.process.handle = function(message, callback){
   _handlers[message] = callback;
 }
 
+global.process.handle('__isReady', function(value, done){
+  done(isReady);
+});
 
 process.on('message', function(message){
   if(message.type === 'init'){
@@ -17,6 +21,7 @@ process.on('message', function(message){
       global.require = require;
 
     vm.runInThisContext(message.code, {timeout: message.timeout, displayErrors: true});
+    isReady = true;
     return;
   }
 
