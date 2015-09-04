@@ -22,6 +22,7 @@ function Child(_code, _pool, _timeout){
   this.timeout = _timeout;
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
+  this.ready = false;
 }
 
 Child.prototype.start = function(){
@@ -35,6 +36,7 @@ Child.prototype.start = function(){
     isSafe: Child.isSafe,
     messageHandler: this.adapter.contactHandler //Will be run before code on process.
   });
+  this.ready = true;
 }
 
 Child.prototype.kill = function(signal){
@@ -42,8 +44,10 @@ Child.prototype.kill = function(signal){
 }
 
 //Inter-process communication
-Child.prototype.contact = function(handler, message){
-  return this.adapter.contact(handler, message);
+Child.prototype.contact = function contact(){
+  if(this.ready === false)
+    return setTimeout(contact, 1);
+  return this.adapter.contact.apply(arguments);
 }
 
 var cache = {};
@@ -52,18 +56,18 @@ function ChildFile(location, _pool, _timeout){
   this.timeout = _timeout;
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
-
+  this.ready = false;
 
   if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
-    return readFile(location, Child.encoding)
+    readFile(location, Child.encoding)
     .then(function(file){
       this.code = file;
       cache[location] = file;
-      return Promise.resolve();
+      this.ready = true;
     }.bind(this))
   }else{
     this.code = cache[location];
-    return nextTick();
+    this.ready = true;
   }
 }
 
