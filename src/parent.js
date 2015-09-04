@@ -15,11 +15,10 @@ var nextTick = Promise.promisify(process.nextTick);
 //Internal dependencies
 var util = require('./util');
 var messageAdapter = require('../messages');
-var Pool = require('./pool');
 
 function Child(_code, _pool, _timeout){
   this.code = _code || '';
-  this.pool = _pool || new Pool(1);
+  this.pool = _pool || new Child.Pool(1);
   this.timeout = _timeout;
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
@@ -49,22 +48,19 @@ Child.prototype.contact = function(handler, message){
 
 var cache = {};
 function ChildFile(location, _pool, _timeout){
-  this.pool = _pool;
+  this.pool = _pool || new Child.Pool(1);
   this.timeout = _timeout;
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
 
 
   if(ChildFile.usesCache === false || (ChildFile.usesCache === true && cache[location] == undefined)){
-    return readFile(location, this.encoding)
-    .then(function(error, file){
-      if(error)
-        throw error;
-
+    return readFile(location, Child.encoding)
+    .then(function(file){
       this.code = file;
       cache[location] = file;
       return Promise.resolve();
-    }.bind(this));
+    }.bind(this))
   }else{
     this.code = cache[location];
     return nextTick();
@@ -79,6 +75,7 @@ Child.logs = true;
 Child.isSafe = false;
 Child.Adapter = messageAdapter; //Default Adapter.
 Child.Pool = require('./pool');
+Child.encoding = 'utf8';
 Child.File = ChildFile;
 
 Child.clearCache = function(){
