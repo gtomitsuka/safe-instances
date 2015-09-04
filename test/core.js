@@ -82,8 +82,9 @@ describe('Child.File', function(){
   var child;
   var poolless;
   
-  it('creates child', function(){
-    child = new Child.File(__dirname + '/../sample-child.js', pool);
+  it('creates child', function(done){
+    child = new Child.File(__dirname + '/../sample-child.js', pool)
+    .then(done);
   });
   
   it('returns message passed by parent', function(done){
@@ -95,9 +96,13 @@ describe('Child.File', function(){
     });
   });
   
-  it('works without pools', function(){
-    poolless = new Child.File(__dirname + '/../sample-child.js');
+  it('works without pools', function(next){
+    poolless = new Child.File(__dirname + '/../sample-child.js')
     
+    poolless.then(next);
+  });
+  
+  it('functionality for poolless childs works the same', function(done){
     var random = Math.random();
     poolless.contact('parentMessage', random)
     .then(function(value){
