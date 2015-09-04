@@ -65,7 +65,7 @@ function ChildFile(location, _pool, _timeout){
       return Promise.resolve();
     }.bind(this));
   }else{
-    self.code = cache[location];
+    this.code = cache[location];
     return nextTick();
   }
 }
