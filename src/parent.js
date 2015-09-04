@@ -78,6 +78,7 @@ Child.logs = true;
 Child.isSafe = false;
 Child.Adapter = messageAdapter; //Default Adapter.
 Child.Pool = require('./pool');
+Child.File = ChildFile;
 
 //Exported functions
 module.exports = Child;
