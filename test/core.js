@@ -83,8 +83,7 @@ describe('Child.File', function(){
   var poolless;
   
   it('creates child', function(done){
-    child = new Child.File(__dirname + '/../sample-child.js', pool)
-    .then(done);
+    child = new Child.File(__dirname + '/../sample-child.js', pool);
   });
   
   it('returns message passed by parent', function(done){
@@ -98,8 +97,6 @@ describe('Child.File', function(){
   
   it('works without pools', function(next){
     poolless = new Child.File(__dirname + '/../sample-child.js')
-    
-    poolless.then(next);
   });
   
   it('functionality for poolless childs works the same', function(done){
