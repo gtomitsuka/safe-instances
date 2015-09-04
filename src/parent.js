@@ -12,22 +12,17 @@ var Promise = require('bluebird');
 var readFile = Promise.promisify(fs.readFile);
 var nextTick = Promise.promisify(process.nextTick);
 
-//safe-instances Modules
+//Internal dependencies
 var util = require('./util');
 var messageAdapter = require('../messages');
+var Pool = require('./pool');
 
 function Child(_code, _pool, _timeout){
   this.code = _code || '';
-  this.pool = _pool || null;
+  this.pool = _pool || new Pool(1);
   this.timeout = _timeout;
   this.process = this.pool.getProcess();
   this.adapter = new Child.Adapter(this);
-
-  //Process logs
-  if(Child.logs === true){
-    this.process.stdout.pipe(process.stdout);
-    this.process.stderr.pipe(process.stderr);
-  }
 }
 
 Child.prototype.start = function(){
