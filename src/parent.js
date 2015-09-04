@@ -44,10 +44,10 @@ Child.prototype.kill = function(signal){
 }
 
 //Inter-process communication
-Child.prototype.contact = function contact(){
+Child.prototype.contact = function contact(a, b){
   if(this.ready === false)
     return setTimeout(contact, 1);
-  return this.adapter.contact.apply(arguments);
+  return this.adapter.contact(a, b);
 }
 
 var cache = {};
