@@ -47,6 +47,7 @@ Child.prototype.contact = function(handler, message){
   return this.adapter.contact(handler, message);
 }
 
+var cache = {};
 function ChildFile(location, _pool, _timeout){
   this.pool = _pool;
   this.timeout = _timeout;
@@ -79,6 +80,10 @@ Child.isSafe = false;
 Child.Adapter = messageAdapter; //Default Adapter.
 Child.Pool = require('./pool');
 Child.File = ChildFile;
+
+Child.clearCache = function(){
+  cache = {};
+}
 
 //Exported functions
 module.exports = Child;
