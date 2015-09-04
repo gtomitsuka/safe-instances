@@ -98,6 +98,12 @@ describe('Child.File', function(){
   it('works without pools', function(){
     poolless = new Child.File(__dirname + '/../sample-child.js');
     
+    var random = Math.random();
+    poolless.contact('parentMessage', random)
+    .then(function(value){
+      assert.equal(random, value);
+      done();
+    });
   });
 })
 
