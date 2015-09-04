@@ -21,10 +21,22 @@ describe('Pool', function(){
 
 describe('Child', function(){
   var child;
-
+  var poolLess;
   it('spawns child', function(){
     child = new Child(processString, pool);
     child.start();
+  });
+  
+  it('generates child without a pool successfully', function(done){
+    poolLess = new Child(processString);
+    poolLess.start();
+    
+    var random = Math.random();
+    poolLess.contact('parentMessage', random)
+    .then(function(value){
+      assert.equal(random, value);
+      done()
+    });
   });
 
   it('communicates with child successfully', function(done){
@@ -63,6 +75,29 @@ describe('Child', function(){
       assert.equal(unicodeString, value);
       done();
     });
+  });
+})
+
+describe('Child.File', function(){
+  var child;
+  var poolless;
+  
+  it('creates child', function(){
+    child = new Child.File(__dirname + '/../sample-child.js', pool);
+  });
+  
+  it('returns message passed by parent', function(done){
+    var random = Math.random();
+    child.contact('parentMessage', random)
+    .then(function(value){
+      assert.equal(random, value);
+      done();
+    });
+  });
+  
+  it('works without pools', function(){
+    poolless = new Child.File(__dirname + '/../sample-child.js');
+    
   });
 })
 
